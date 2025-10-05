@@ -1,11 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Счетчик - Лаб 5</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+        <h1>⚡ Счетчик с событиями</h1>
+        
+        <div class="counter-display" id="counter">0</div>
+        
+        <div class="buttons">
+            <button class="speed-btn" id="speedBtn">SPEED +</button>
+            <button class="speed-minus-btn" id="speedMinusBtn">SPEED -</button>
+        </div>
+        
+        <button class="reset-btn" id="resetBtn">RESET</button>
+        
+        <div class="info">
+            <p><strong>Условия:</strong></p>
+            <p>🟢 SPEED +: фон светло-зеленый, цифры светло-красные</p>
+            <p>🔴 SPEED -: фон светло-красный, цифры светло-зеленые</p>
+            <p>⚪ RESET: возврат к начальному виду (серый фон)</p>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
