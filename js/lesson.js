@@ -18,68 +18,64 @@ phoneButton.addEventListener('click', ()=>{
 })
 
 
-//TAB SLIDER
+// TAB SLIDER
 const tabsContentCards = document.querySelectorAll('.tab_content_block');
 const tabsItems = document.querySelectorAll('.tab_content_item');
-const tabsItemsParents =  document.querySelector('.tab_content_items');
+const tabsItemsParents = document.querySelector('.tab_content_items');
 
+const hideTabsContentCards = () => {
+    tabsContentCards.forEach((tabsContentCard) => {
+        tabsContentCard.style.display = 'none';
+    });
+    tabsItems.forEach((tabItem) => {
+        tabItem.classList.remove('tab_content_item_active');
+    });
+};
 
-const hightTabsContentCards = () =>{
-    tabsContentCards.forEach((tabsContentCard)=>{
-        tabsContentCard.style.display = 'none'
-    })
-    tabsItems.forEach((tabItem)=>{
-        tabItem.classList.remove('tab_content_item_active')
-    })
-}
-
-const showTabsContentCards = (indexElement = 0)=>{
+const showTabsContentCards = (indexElement = 0) => {
     tabsContentCards[indexElement].style.display = 'block';
-    tabsItems[indexElement].classList.add('tab_content_item_active')
-}
+    tabsItems[indexElement].classList.add('tab_content_item_active');
+};
 
-hightTabsContentCards();
+hideTabsContentCards();
 showTabsContentCards();
 
-
 tabsItemsParents.onclick = (event) => {
-    if (event.target.classList.contains('tab_content_item')){
-        tabsItems.forEach((tabItem, tabItemIndex)=>{
-            if(event.target === tabItem){
-                hightTabsContentCards()
-                showTabsContentCards(tabItemIndex)
+    if (event.target.classList.contains('tab_content_item')) {
+        tabsItems.forEach((tabItem, tabItemIndex) => {
+            if (event.target === tabItem) {
+                hideTabsContentCards();
+                showTabsContentCards(tabItemIndex);
             }
-        })
+        });
     }
-}
+};
 
-let curretIndex = 0; // Первая вкладка
-let intervalId; //Переменная для хранения интервала
+let currentIndex = 0; // Первая вкладка
+let intervalId; // Переменная для хранения интервала
 
-//Ф-ция для автоматического переключения
+// Функция для автоматического переключения
+const startAutoSlider = () => {
+    intervalId = setInterval(() => {
+        hideTabsContentCards();
+        showTabsContentCards(currentIndex);
+        currentIndex = (currentIndex + 1) % tabsItems.length;
+    }, 2000); // 2 сек
+};
+// Запуск автослайдера
+startAutoSlider();
 
-const startAuthoSlider = ()=>{
-    intervalId = setInterval(()=>{
-        hightTabsContentCards();
-        showTabsContentCards(curretIndex);
-        curretIndex = (curretIndex +1) % tabsItems.length;
-    }, 2000); // 2сек
-}
-//Запуск автослайдера
-startAuthoSlider();
-
-//Остановка слайдера при клике на вкладку
-
+// Остановка слайдера при клике на вкладку
 tabsItemsParents.onclick = (event) => {
     clearInterval(intervalId);
-    if (event.target.classList.contains('tab_content_item')){
-        tabsItems.forEach((tabItem, tabItemIndex) =>{
-            if(event.target === tabItem){
-                hightTabsContentCards();
+    if (event.target.classList.contains('tab_content_item')) {
+        tabsItems.forEach((tabItem, tabItemIndex) => {
+            if (event.target === tabItem) {
+                hideTabsContentCards();
                 showTabsContentCards(tabItemIndex);
-                curretIndex = tabItemIndex;
-                startAuthoSlider();
+                currentIndex = tabItemIndex;
+                startAutoSlider();
             }
-        })
+        });
     }
-}
+};

@@ -31,7 +31,7 @@
 
 .tab_slider {
     background: black;
-    padding: 100px 0;
+    padding: 100px 0 150px 0; /* Увеличил bottom padding для пространства перед CONVERTER */
 }
 
 .tab_content_block {
@@ -43,8 +43,10 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: center;
-    height: 170px;
+    justify-content: flex-start; /* Изменил на flex-start, чтобы содержимое шло сверху вниз без центрирования по вертикали */
+    min-height: 170px; /* Минимальная высота для пустых блоков */
+    height: auto; /* Автоматическая высота по содержимому */
+    overflow: hidden; /* Скрывает переполнение, если текст/изображение слишком большое. Альтернатива: overflow: auto; для скролла */
 }
 
 .tab_content_block p {
@@ -53,6 +55,15 @@
     text-align: justify;
 }
 
+.tab_image { /* Новый класс для изображений */
+    max-width: 100%;
+    max-height: 150px; /* Ограничение высоты изображения, чтобы не раздувало блок */
+    height: auto;
+    object-fit: contain; /* Сохраняет пропорции изображения */
+    margin-bottom: 10px; /* Отступ под изображением */
+}
+
+/* Остальные стили для tabs остаются без изменений */
 .tab_content_items {
     width: 400px;
     display: flex;
@@ -82,7 +93,7 @@
 .tab_contents_block {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start; /* Изменил на flex-start, чтобы блоки выравнивались по верху, если высота разная */
     margin-top: 50px;
 }
 
