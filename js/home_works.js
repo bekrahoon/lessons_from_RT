@@ -60,3 +60,102 @@
       iinResult.textContent = 'ИИН корректен';
       iinResult.style.color = 'green';
     });
+
+
+
+    // move_block
+const parent = document.querySelector('.parent_block');
+const child = document.querySelector('.child_block');
+
+let isDragging = false;
+let offsetX = 0;
+let offsetY = 0;
+
+child.addEventListener('mousedown', (e) => {
+    isDragging = true;
+
+    const rect = child.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+
+    document.body.style.userSelect = 'none';
+});
+
+document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+
+    const parentRect = parent.getBoundingClientRect();
+
+    let x = e.clientX - parentRect.left - offsetX;
+    let y = e.clientY - parentRect.top - offsetY;
+
+    x = Math.max(0, Math.min(x, parentRect.width - child.offsetWidth));
+    y = Math.max(0, Math.min(y, parentRect.height - child.offsetHeight));
+
+    child.style.left = `${x}px`;
+    child.style.top = `${y}px`;
+});
+
+document.addEventListener('mouseup', () => {
+    isDragging = false;
+    document.body.style.userSelect = '';
+});
+
+
+
+// stopwatch
+
+
+let minutes = 0;
+let seconds = 0;
+let milliseconds = 0;
+
+let interval = null;
+
+const minutesEl = document.getElementById('minutesS');
+const secondsEl = document.getElementById('secondsS');
+const msEl = document.getElementById('ml-secondsS');
+
+const startBtn = document.getElementById('start');
+const stopBtn = document.getElementById('stop');
+const resetBtn = document.getElementById('reset');
+
+function updateDisplay() {
+    minutesEl.textContent = minutes.toString().padStart(2, '0');
+    secondsEl.textContent = seconds.toString().padStart(2, '0');
+    msEl.textContent = milliseconds.toString().padStart(2, '0');
+}
+
+function startTimer() {
+    if (interval) return; // не запускаем заново если уже идёт
+    interval = setInterval(() => {
+        milliseconds += 1;
+        if (milliseconds >= 100) { // считаем сотые доли секунды
+            milliseconds = 0;
+            seconds += 1;
+        }
+        if (seconds >= 60) {
+            seconds = 0;
+            minutes += 1;
+        }
+        updateDisplay();
+    }, 10); // каждые 10 мс
+}
+
+function stopTimer() {
+    clearInterval(interval);
+    interval = null;
+}
+
+function resetTimer() {
+    stopTimer();
+    minutes = 0;
+    seconds = 0;
+    milliseconds = 0;
+    updateDisplay();
+}
+
+// События кнопок
+startBtn.addEventListener('click', startTimer);
+stopBtn.addEventListener('click', stopTimer);
+resetBtn.addEventListener('click', resetTimer);
