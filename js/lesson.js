@@ -1,22 +1,32 @@
-//проверка номера
-const phoneInput = document.querySelector('#phone_input');
-const phoneButton = document.querySelector('#phone_button');
-const phoneSpan = document.querySelector('#phone_result');
+// Регулярки для Кыргызстана и России
+const kgRegExp = /^\+996\s[2579]\d{2}\s\d{2}-\d{2}-\d{2}$/; // пример: +996 550 64-47-72
+const ruRegExp = /^\+7\s?\d{3}\s?\d{3}-\d{2}-\d{2}$/; // пример: +7 999 123-45-67
 
+const phoneButtons = document.querySelectorAll('.phone_button');
+const phoneInputs = document.querySelectorAll('.phone_input');
+const phoneSpans = document.querySelectorAll('.phone_result');
 
-//+996550644772
-const reqExp = /^\+996 [2579]\d{2} \d{2}-\d{2}-\d{2}$/
+phoneButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+        const value = phoneInputs[index].value.trim(); 
+        const span = phoneSpans[index]; 
 
-phoneButton.addEventListener('click', ()=>{
-    if (reqExp.test(phoneInput.value)){
-        phoneSpan.innerHTML = 'Этот номер существует';
-        phoneSpan.style.color = 'green';
-    }else {
-        phoneSpan.innerHTML = 'Этот номер не существует';
-        phoneSpan.style.color = 'red';
-    }
-})
+        let regExpToUse;
+        if (index === 0) {
+            regExpToUse = kgRegExp; 
+        } else {
+            regExpToUse = ruRegExp; 
+        }
 
+        if (regExpToUse.test(value)) {
+            span.innerHTML = 'Этот номер существует';
+            span.style.color = 'green';
+        } else {
+            span.innerHTML = 'Этот номер не существует';
+            span.style.color = 'red';
+        }
+    });
+});
 
 // TAB SLIDER
 const tabsContentCards = document.querySelectorAll('.tab_content_block');
