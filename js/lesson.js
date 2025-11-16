@@ -93,10 +93,12 @@ const somInput = document.querySelector('#som');
 const usdInput = document.querySelector('#usd');
 const eurInput = document.querySelector('#eur');
 
-const eurRate = 103.01; 
+const usdRate = 87.45; // 1 USD в KGS
+const eurRate = 103.01; // 1 EUR в KGS
 
 let isUpdating = false;
 
+// Функция для обновления от SOM
 function updateFromSom() {
     if (!somInput.value) {
         usdInput.value = '';
@@ -107,6 +109,7 @@ function updateFromSom() {
     eurInput.value = (parseFloat(somInput.value) / eurRate).toFixed(2);
 }
 
+// Функция для обновления от USD
 function updateFromUsd() {
     if (!usdInput.value) {
         somInput.value = '';
@@ -117,6 +120,7 @@ function updateFromUsd() {
     eurInput.value = (parseFloat(somInput.value) / eurRate).toFixed(2);
 }
 
+// Функция для обновления от EUR
 function updateFromEur() {
     if (!eurInput.value) {
         somInput.value = '';
@@ -127,6 +131,7 @@ function updateFromEur() {
     usdInput.value = (parseFloat(somInput.value) / usdRate).toFixed(2);
 }
 
+// Слушатели событий
 somInput.addEventListener('input', () => {
     if (isUpdating) return;
     isUpdating = true;
