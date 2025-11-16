@@ -1,14 +1,23 @@
-/* HEADER */
+:root {
+    --primary-color: #00ffea; /* неоновый голубой */
+    --secondary-color: #ff00ff; /* неоновый розовый */
+    --bg-dark: #0b0c23; /* тёмный космос */
+    --btn-bg: rgba(0,0,0,0.6);
+    --btn-hover: rgba(0,255,234,0.2);
+    --text-color: #ffffff;
+}
 
+/* HEADER */
 .header {
     height: 80px;
-    background: #2c2d2f;
+    background: rgba(11,12,35,0.9);
     display: flex;
     align-items: center;
     width: 100%;
     position: fixed;
     top: 0;
-    z-index: 2;
+    z-index: 200;
+    box-shadow: 0 0 20px var(--primary-color);
 }
 
 .inner_header {
@@ -19,7 +28,6 @@
 }
 
 /* LOGOTYPE */
-
 .logotype {
     display: flex;
     align-items: center;
@@ -27,15 +35,15 @@
     font-size: 22px;
     height: 60px;
     width: fit-content;
-    background: var(--orange);
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
     padding: 8px;
-    color: white;
+    color: #000;
     border-radius: 5px;
     cursor: pointer;
+    text-shadow: 0 0 5px #fff;
 }
 
 /* HEADER MENU */
-
 .menu {
     display: flex;
     justify-content: space-around;
@@ -43,23 +51,23 @@
 }
 
 .menu_link a {
-    color: var(--orange);
+    color: var(--primary-color);
     text-transform: uppercase;
+    text-shadow: 0 0 5px var(--secondary-color);
 }
 
 .menu_link a:hover {
     text-decoration: underline;
+    color: var(--secondary-color);
 }
 
 /* MAIN BLOCK */
-
 .main_block {
     padding: 100px 0;
-    background: black;
+    background: var(--bg-dark);
 }
 
 /* BUTTONS COLOR PICKER */
-
 .colors-buttons {
     display: flex;
     justify-content: space-between;
@@ -68,14 +76,14 @@
 
 .btn-color {
     border-radius: 20px;
-    border-color: white !important;
+    border-color: var(--primary-color) !important;
 }
 
 /* FOOTER */
-
 .footer {
-    background: #2c2d2f;
+    background: rgba(11,12,35,0.9);
     width: 100%;
+    box-shadow: 0 -5px 20px var(--primary-color);
 }
 
 .inner_footer {
@@ -87,16 +95,17 @@
 
 .footer h2 {
     text-transform: uppercase;
-    color: var(--orange);
+    color: var(--primary-color);
     font-weight: 600;
+    text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--secondary-color);
 }
 
-
 /* SLIDER BLOCK */
-
 .slider_block {
     padding: 100px 0;
-    background: black;
+    background: var(--bg-dark);
+    position: relative;
+    overflow: hidden;
 }
 
 .slider {
@@ -104,12 +113,13 @@
     width: 100%;
     height: 300px;
     overflow: hidden;
-    border: 3px solid var(--orange);
+    border: 3px solid var(--primary-color);
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 30px;
+    box-shadow: 0 0 20px var(--primary-color), 0 0 40px var(--secondary-color);
 }
 
 .slide {
@@ -123,26 +133,28 @@
 }
 
 .slide_card {
-    color: white;
+    color: var(--text-color);
     margin: 0 auto;
     width: 500px;
     text-align: center;
 }
 
 .slide_card h3 {
-    color: white;
+    color: var(--primary-color);
     text-transform: uppercase;
     font-size: 22px;
+    text-shadow: 0 0 5px var(--secondary-color);
 }
 
 .slide_card p {
     font-size: 16px;
     text-align: justify;
     margin: 10px 0;
+    color: var(--text-color);
 }
 
 .slide_card a {
-    color: var(--orange);
+    color: var(--secondary-color);
     text-decoration: underline;
 }
 
@@ -151,9 +163,8 @@
 }
 
 /* VIDEO BLOCK */
-
 .block_video {
-    background: black;
+    background: var(--bg-dark);
     padding: 100px 0;
 }
 
@@ -164,7 +175,6 @@
 }
 
 /* MODAL */
-
 .modal {
     position: fixed;
     height: 100%;
@@ -172,7 +182,7 @@
     top: 0;
     left: 0;
     z-index: 2;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
     display: none;
 }
 
@@ -185,11 +195,12 @@
     position: relative;
     width: 100%;
     padding: 40px;
-    background-color: black;
-    border: 2px solid var(--orange);
+    background-color: rgba(11,12,35,0.95);
+    border: 2px solid var(--primary-color);
     border-radius: 4px;
     max-height: 80vh;
     overflow-y: auto;
+    box-shadow: 0 0 20px var(--primary-color), 0 0 40px var(--secondary-color);
 }
 
 .modal_content form {
@@ -204,7 +215,7 @@
     right: 14px;
     font-size: 30px;
     color: red;
-    opacity: 0.5;
+    opacity: 0.7;
     font-weight: 700;
     border: none;
     background-color: transparent;
@@ -215,7 +226,8 @@
     text-align: center;
     font-size: 22px;
     text-transform: uppercase;
-    color: white;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px var(--primary-color);
 }
 
 .modal_input, .btn_min {
@@ -223,11 +235,9 @@
     margin-top: 10px;
 }
 
-
-/*-------BOTTLE-------*/
-
+/* BOTTLE */
 .botlle {
-    background: black;
+    background: var(--bg-dark);
     padding: 100px 0;
 }
 
@@ -241,7 +251,125 @@
     position: relative;
     width: 300px;
     height: 300px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+    border: 8px solid transparent;
+    animation: animate 5s linear infinite;
+    transform-origin: bottom center;
+}
+
+.bowl::before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 30px;
+    border: 15px solid #444;
+    border-radius: 50%;
+    box-shadow: 0 10px #222;
+}
+
+.bowl::after {
+    content: "";
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 60px;
+    background: rgba(255,255,255,0.05);
+    transform-origin: center;
+    animation: animatebowlshadow 5s linear infinite;
+    border-radius: 50%;
+}
+
+.liquid {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    background: #1ae907;
+    border-bottom-left-radius: 150px;
+    border-bottom-right-radius: 150px;
+    filter: drop-shadow(0 0 80px #1ae907);
+    transform-origin: top center;
+    animation: animateliquid 5s linear infinite;
+}
+
+.liquid::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    width: 100%;
+    height: 20px;
+    background: #15be05;
+    border-radius: 50%;
+    filter: drop-shadow(0 0 80px #15be05);
+}
+
+.shadow {
+    position: absolute;
+    top: calc(50% + 150px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 260px;
+    height: 40px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    animation: animateshadow 5s linear infinite;
+}
+
+/* ЗВЁЗДЫ НА ФОНЕ */
+body::after {
+    content: '';
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: transparent url('https://raw.githubusercontent.com/kevin-powell/starfield/main/stars.png') repeat;
+    z-index: -1;
+    animation: moveStars 200s linear infinite;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+@keyframes moveStars {
+    0% {background-position: 0 0;}
+    100% {background-position: -10000px 10000px;}
+}
+
+
+
+/*-------BOTTLE-------*/
+
+.botlle {
+    background: var(--bg-dark); /* основной тёмный фон космоса */
+    background-image: url('https://raw.githubusercontent.com/kevin-powell/starfield/main/stars.png'); /* звёздное небо */
+    background-repeat: repeat;
+    background-size: cover;
+    position: relative;
+    padding: 100px 0;
+    overflow: hidden; /* чтобы анимации не вылезали */
+}
+
+.bottle_inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1; /* чтобы содержимое было над звёздами */
+}
+
+
+.bowl {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    background: rgba(255,255,255,0.05);
     border-radius: 50%;
     border: 8px solid transparent;
     animation: animate 5s linear infinite;

@@ -1,19 +1,31 @@
+:root {
+    --primary-color: #00ffea; /* неоновый голубой */
+    --secondary-color: #ff00ff; /* неоновый розовый */
+    --bg-dark: #0b0c23; /* космос */
+    --btn-bg: rgba(0,0,0,0.6);
+    --btn-hover: rgba(0,255,234,0.2);
+    --text-color: #ffffff;
+    --border-glow: 0 0 10px var(--primary-color), 0 0 20px var(--secondary-color);
+}
 
 /* GMAIL BLOCK */
-
 .gmail_block {
-    background: black;
+    background: var(--bg-dark);
     padding: 100px 0;
+    position: relative;
+    z-index: 1;
 }
 
 .inner_gmail_block {
     margin-top: 50px;
     display: flex;
     justify-content: space-evenly;
-    border: 1px solid var(--orange);
-    height: 300px;
+    border: 2px solid var(--primary-color);
     border-radius: 20px;
     align-items: center;
+    box-shadow: var(--border-glow);
+    padding: 20px;
+    background: rgba(0,0,0,0.3);
 }
 
 .form_gmail {
@@ -25,28 +37,43 @@
 .form_gmail button {
     width: 100%;
     margin: 20px 0;
+    background: var(--btn-bg);
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    box-shadow: var(--border-glow);
+    transition: 0.3s;
+}
+
+.form_gmail button:hover {
+    background: var(--btn-hover);
+    color: var(--secondary-color);
+    box-shadow: 0 0 20px var(--secondary-color), 0 0 40px var(--primary-color);
 }
 
 /* MOVE BLOCK */
-
 .move_block {
-    background: black;
+    background: var(--bg-dark);
     padding: 100px 0;
+    position: relative;
 }
 
 .parent_block {
     height: 500px;
     width: 500px;
-    border: 1px solid var(--orange);
+    border: 2px solid var(--primary-color);
     position: relative;
     margin: 0 auto;
+    border-radius: 15px;
+    box-shadow: var(--border-glow);
 }
 
 .inner_parent_block {
     height: 400px;
     width: 400px;
-    border: 1px solid var(--orange);
+    border: 2px solid var(--secondary-color);
     border-radius: 18px;
+    margin: auto;
 }
 
 .child_block {
@@ -54,17 +81,11 @@
     top: 0;
     width: 50px;
     height: 50px;
-    background-color: red;
+    background-color: var(--primary-color);
+    box-shadow: 0 0 20px var(--primary-color), 0 0 40px var(--secondary-color);
 }
 
-
-
-.inner_move_block {
-    margin-top: 50px;
-}
-
-/*----ANALOG CLOCK-----*/
-
+/* ANALOG CLOCK */
 .clock {
     --clock-size: 360px;
     width: var(--clock-size);
@@ -73,14 +94,16 @@
     inset: 0;
     margin: auto;
     border-radius: 50%;
-    color: white;
+    color: var(--primary-color);
+    background: rgba(0,0,0,0.3);
+    box-shadow: var(--border-glow);
 }
 
 .spike {
     position: absolute;
     width: 8px;
     height: 1px;
-    background: #fff9;
+    background: var(--primary-color);
     line-height: 20px;
     transform-origin: 50%;
     z-index: 5;
@@ -89,91 +112,23 @@
     font-style: normal;
     transform: rotate(var(--rotate)) translateX(var(--dail-size));
 }
-.spike:nth-child(5n+1) {
-    box-shadow: -7px 0 #fff9;
-}
-.spike:nth-child(5n+1):after {
-    content: attr(data-i);
-    position: absolute;
-    right: 22px;
-    top: -10px;
-    transition: 1s linear;
-    transform: rotate(calc( var(--dRotate) - var(--rotate)));
-}
 
-.seconds {
-    --dRotate: 0deg;
-    --dail-size: calc((var(--clock-size)/ 2) - 8px);
-    font-weight: 800;
-    font-size: 18px;
-    transform: rotate(calc( -1 * var(--dRotate)));
-    position: absolute;
-    inset: 0;
-    margin: auto;
-    transition: 1s linear;
+/* STOPWATCH */
+.stopwatch {
+    padding: 100px 0;
+    background: var(--bg-dark);
+    color: var(--primary-color);
 }
-
-.minutes {
-    --dail-size: calc((var(--clock-size)/ 2) - 65px);
-    font-size: 16px;
-    transform: rotate(calc( -1 * var(--dRotate)));
-    position: absolute;
-    inset: 0;
-    margin: auto;
-    transition: 1s linear;
-}
-
-.stop-anim {
-    transition: 0s linear;
-}
-.stop-anim .spike:after {
-    transition: 0s linear !important;
-}
-
-.hour {
-    font-size: 70px;
-    font-weight: 900;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.minute {
-    font-size: 36px;
-    font-weight: 900;
-    position: absolute;
-    background: #000;
-    z-index: 10;
-    right: calc(var(--clock-size)/ 4.5);
-    top: 50%;
-    transform: translateY(-50%);
-}
-.minute:after {
-    content: "";
-    position: absolute;
-    border: 2px solid #fff;
-    border-right: none;
-    height: 50px;
-    left: -10px;
-    top: 50%;
-    border-radius: 40px 0 0 40px;
-    width: calc(var(--clock-size)/ 2.75);
-    transform: translatey(-50%);
-}
-
-
-/*-------STOP WATCH------ */
 
 .time {
-    color: white;
     display: flex;
     justify-content: center;
     font-size: 80px;
     height: 100px;
     width: 100%;
-    border-bottom: 1px solid var(--orange);
+    border-bottom: 2px solid var(--primary-color);
     margin-top: 40px;
+    text-shadow: var(--border-glow);
 }
 
 .time_block {
@@ -182,14 +137,24 @@
     justify-content: space-between;
 }
 
-.stopwatch {
-    padding: 100px 0;
-    background: black;
-}
-
 .time_buttons {
     margin-top: 30px;
     width: 100%;
     display: flex;
     justify-content: space-between;
+}
+
+.time_buttons .btn {
+    background: var(--btn-bg);
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    box-shadow: var(--border-glow);
+    transition: 0.3s;
+}
+
+.time_buttons .btn:hover {
+    background: var(--btn-hover);
+    color: var(--secondary-color);
+    box-shadow: 0 0 20px var(--secondary-color), 0 0 40px var(--primary-color);
 }
