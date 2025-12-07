@@ -13,16 +13,21 @@ function MovieDetail() {
   const movie = movies.find(m => m.id === parseInt(id));
 
   if (!movie) {
-    return <div>Фильм не найден!</div>;
+    return (
+      <div className="movie-detail">
+        <h2>Фильм не найден!</h2>
+        <Link to="/" className="back-link">← Назад к списку</Link>
+      </div>
+    );
   }
 
   return (
-    <div>
+    <div className="movie-detail">
       <h2>{movie.title} ({movie.year})</h2>
       <p><strong>Описание:</strong> {movie.description}</p>
       <p><strong>Режиссёр:</strong> {movie.director}</p>
       <p><strong>Жанр:</strong> {movie.genre}</p>
-      <Link to="/">Назад к списку</Link>
+      <Link to="/" className="back-link">← Назад к списку</Link>
     </div>
   );
 }
