@@ -61,6 +61,7 @@ function AppContent() {
           <div className="footer-section">
             <h3>КиноМир</h3>
             <p>Ваш гид в мире кино</p>
+            <p>Работу выполнил Умуржанов Аба Бекрахун</p>
           </div>
           <div className="footer-section">
             <h4>Навигация</h4>
