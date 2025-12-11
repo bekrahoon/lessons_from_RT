@@ -51,7 +51,18 @@ function MovieDetail() {
       <div className="movie-detail">
         <div className="movie-detail-image">
           <div className="detail-poster">
-            <span className="detail-poster-icon">🎬</span>
+            <img 
+              src={movie.image} 
+              alt={movie.title}
+              className="detail-poster-image"
+              onError={(e) => {
+                e.target.style.display = 'none';
+                e.target.nextElementSibling.style.display = 'flex';
+              }}
+            />
+            <div className="detail-poster-fallback">
+              <span className="detail-poster-icon">🎬</span>
+            </div>
           </div>
         </div>
 
@@ -156,7 +167,18 @@ function MovieDetail() {
                 className="related-movie-card"
               >
                 <div className="related-movie-poster">
-                  <span className="related-poster-icon">🎬</span>
+                  <img 
+                    src={relatedMovie.image} 
+                    alt={relatedMovie.title}
+                    className="related-poster-image"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextElementSibling.style.display = 'flex';
+                    }}
+                  />
+                  <div className="related-poster-fallback">
+                    <span className="related-poster-icon">🎬</span>
+                  </div>
                 </div>
                 <div className="related-movie-info">
                   <h4>{relatedMovie.title}</h4>
