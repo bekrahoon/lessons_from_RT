@@ -73,8 +73,8 @@ function AppContent() {
           <div className="footer-section">
             <h4>Контакты</h4>
             <ul>
-              <li>Email: info@kinоmir.com</li>
-              <li>Тел: +996 XXX XXX XXX</li>
+              <li>Email: KinoMir@planet.com</li>
+              <li>Тел: +996 999 889 887</li>
             </ul>
           </div>
           <div className="footer-section">
