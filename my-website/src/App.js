@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { BasketProvider, useBasket } from './BasketContext';
+import { AuthProvider, useAuth } from './AuthContext';
+import ProtectedRoute from './ProtectedRoute';
 import MovieList from './MovieList';
 import MovieDetail from './MovieDetail.js';
 import BasketList from './basket_list';
@@ -8,6 +10,9 @@ import BasketDetail from './basket_detail';
 import CreateOrder from './create_order';
 import UpdateOrder from './update_order';
 import OrdersList from './OrdersList';
+import Register from './Register';
+import Login from './Login';
+import Profile from './Profile';
 import './App.css';
 
 function BasketIcon() {
@@ -26,6 +31,42 @@ function BasketIcon() {
   );
 }
 
+function UserMenu() {
+  const { currentUser, logout } = useAuth();
+
+  if (!currentUser) {
+    return (
+      <div className="auth-buttons">
+        <Link to="/login" className="auth-btn login-btn">Войти</Link>
+        <Link to="/register" className="auth-btn register-btn">Регистрация</Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="user-menu">
+      <Link to="/profile" className="user-profile-link">
+        <img 
+          src={currentUser.avatar} 
+          alt={currentUser.firstName}
+          className="user-avatar-small"
+        />
+        <span className="user-name">{currentUser.firstName}</span>
+      </Link>
+      <button 
+        className="logout-btn-small"
+        onClick={() => {
+          logout();
+          window.location.href = '/';
+        }}
+        title="Выйти"
+      >
+        🚪
+      </button>
+    </div>
+  );
+}
+
 function AppContent() {
   return (
     <div className="App">
@@ -40,7 +81,10 @@ function AppContent() {
             <Link to="/basket">Корзина</Link>
             <Link to="/orders">Заказы</Link>
           </nav>
-          <BasketIcon />
+          <div className="header-actions">
+            <BasketIcon />
+            <UserMenu />
+          </div>
         </div>
       </header>
 
@@ -48,11 +92,40 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<MovieList />} />
           <Route path="/movie/:id" element={<MovieDetail />} />
-          <Route path="/basket" element={<BasketList />} />
-          <Route path="/basket/:id" element={<BasketDetail />} />
-          <Route path="/create-order" element={<CreateOrder />} />
-          <Route path="/orders" element={<OrdersList />} />
-          <Route path="/orders/:id" element={<UpdateOrder />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          
+          {/* Защищенные маршруты */}
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          } />
+          <Route path="/basket" element={
+            <ProtectedRoute>
+              <BasketList />
+            </ProtectedRoute>
+          } />
+          <Route path="/basket/:id" element={
+            <ProtectedRoute>
+              <BasketDetail />
+            </ProtectedRoute>
+          } />
+          <Route path="/create-order" element={
+            <ProtectedRoute>
+              <CreateOrder />
+            </ProtectedRoute>
+          } />
+          <Route path="/orders" element={
+            <ProtectedRoute>
+              <OrdersList />
+            </ProtectedRoute>
+          } />
+          <Route path="/orders/:id" element={
+            <ProtectedRoute>
+              <UpdateOrder />
+            </ProtectedRoute>
+          } />
         </Routes>
       </main>
 
@@ -61,7 +134,6 @@ function AppContent() {
           <div className="footer-section">
             <h3>КиноМир</h3>
             <p>Ваш гид в мире кино</p>
-            <p>Работу выполнил Умуржанов Аба Бекрахун</p>
           </div>
           <div className="footer-section">
             <h4>Навигация</h4>
@@ -74,8 +146,8 @@ function AppContent() {
           <div className="footer-section">
             <h4>Контакты</h4>
             <ul>
-              <li>Email: KinoMir@planet.com</li>
-              <li>Тел: +996 999 889 887</li>
+              <li>Email: info@kinоmir.com</li>
+              <li>Тел: +996 XXX XXX XXX</li>
             </ul>
           </div>
           <div className="footer-section">
@@ -88,7 +160,7 @@ function AppContent() {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2025 КиноМир. Все права защищены.</p>
+          <p>&copy; 2024 КиноМир. Все права защищены.</p>
         </div>
       </footer>
     </div>
@@ -98,9 +170,11 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <BasketProvider>
-        <AppContent />
-      </BasketProvider>
+      <AuthProvider>
+        <BasketProvider>
+          <AppContent />
+        </BasketProvider>
+      </AuthProvider>
     </Router>
   );
 }
