@@ -158,17 +158,7 @@ function Login() {
               <span>или</span>
             </div>
 
-            {/* Социальные сети */}
-            <div className="social-login">
-              <button type="button" className="social-btn google-btn">
-                <span className="social-icon">🌐</span>
-                Войти через Google
-              </button>
-              <button type="button" className="social-btn facebook-btn">
-                <span className="social-icon">📘</span>
-                Войти через Facebook
-              </button>
-            </div>
+
 
             {/* Ссылка на регистрацию */}
             <div className="auth-footer">
