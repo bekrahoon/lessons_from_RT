@@ -13,6 +13,8 @@ import OrdersList from './OrdersList';
 import Register from './Register';
 import Login from './Login';
 import Profile from './Profile';
+import About from './About';
+import Contact from './Contact';
 import './App.css';
 
 function BasketIcon() {
@@ -80,6 +82,8 @@ function AppContent() {
             <Link to="/">Главная</Link>
             <Link to="/basket">Корзина</Link>
             <Link to="/orders">Заказы</Link>
+            <Link to="/about">О нас</Link>
+            <Link to="/contacts">Контакты</Link>
           </nav>
           <div className="header-actions">
             <BasketIcon />
@@ -94,6 +98,8 @@ function AppContent() {
           <Route path="/movie/:id" element={<MovieDetail />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contacts" element={<Contact />} />
           
           {/* Защищенные маршруты */}
           <Route path="/profile" element={
@@ -141,21 +147,25 @@ function AppContent() {
               <li><Link to="/">Главная</Link></li>
               <li><Link to="/basket">Корзина</Link></li>
               <li><Link to="/orders">Заказы</Link></li>
+              <li><Link to="/about">О нас</Link></li>
+              <li><Link to="/contacts">Контакты</Link></li>
             </ul>
           </div>
           <div className="footer-section">
             <h4>Контакты</h4>
             <ul>
               <li>Email: info@kinоmir.com</li>
-              <li>Тел: +996 XXX XXX XXX</li>
+              <li>Тел: +996 999 089 884</li>
             </ul>
           </div>
           <div className="footer-section">
             <h4>Следите за нами</h4>
             <div className="social-links">
-              <a href="/" className="social-icon">📘</a>
-              <a href="/" className="social-icon">📸</a>
-              <a href="/" className="social-icon">🐦</a>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon" title="Facebook">📘</a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon" title="Instagram">📸</a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-icon" title="Twitter">🐦</a>
+              <a href="https://t.me/movieshop" target="_blank" rel="noopener noreferrer" className="social-icon" title="Telegram">✈️</a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="social-icon" title="YouTube">📺</a>
             </div>
           </div>
         </div>
