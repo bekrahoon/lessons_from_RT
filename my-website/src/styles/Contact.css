@@ -1,8 +1,8 @@
-/* ==================== Contact Page Styles ==================== */
+/* ==================== Contact Page Styles (С ПОДДЕРЖКОЙ ТЕМ) ==================== */
 
 .contact-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: var(--bg-gradient);
   padding: 2rem 0;
 }
 
@@ -21,14 +21,14 @@
 
 .contact-title {
   font-size: 3rem;
-  color: #1e3c72;
+  color: var(--color-primary);
   margin-bottom: 1rem;
   font-weight: 700;
 }
 
 .contact-subtitle {
   font-size: 1.2rem;
-  color: #666;
+  color: var(--text-secondary);
   max-width: 600px;
   margin: 0 auto;
 }
@@ -80,14 +80,14 @@
 
 /* ==================== Contact Info Section ==================== */
 .contact-info-section {
-  background: white;
+  background: var(--card-bg);
   padding: 2rem;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
 }
 
 .contact-info-section h2 {
-  color: #1e3c72;
+  color: var(--color-primary);
   font-size: 2rem;
   margin-bottom: 2rem;
 }
@@ -120,6 +120,7 @@
 .contact-card h3 {
   font-size: 1.2rem;
   margin-bottom: 0.75rem;
+  color: white;
 }
 
 .contact-card a {
@@ -138,17 +139,18 @@
 .contact-card p {
   margin: 0.5rem 0;
   font-size: 0.95rem;
+  color: white;
 }
 
 /* ==================== Social Media ==================== */
 .social-media-section {
   margin-top: 2rem;
   padding-top: 2rem;
-  border-top: 2px solid #f0f0f0;
+  border-top: 2px solid var(--border-color);
 }
 
 .social-media-section h3 {
-  color: #1e3c72;
+  color: var(--color-primary);
   margin-bottom: 1.5rem;
   font-size: 1.3rem;
 }
@@ -164,16 +166,16 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1rem;
-  background: #f8f8f8;
+  background: var(--bg-secondary);
   border-radius: 10px;
   text-decoration: none;
-  color: #333;
+  color: var(--text-primary);
   transition: all 0.3s ease;
 }
 
 .social-link:hover {
   transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
 }
 
 .social-link .social-icon {
@@ -212,20 +214,20 @@
 
 /* ==================== Contact Form Section ==================== */
 .contact-form-section {
-  background: white;
+  background: var(--card-bg);
   padding: 2rem;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
 }
 
 .contact-form-section h2 {
-  color: #1e3c72;
+  color: var(--color-primary);
   font-size: 2rem;
   margin-bottom: 1rem;
 }
 
 .form-description {
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 2rem;
   line-height: 1.6;
 }
@@ -244,35 +246,37 @@
 }
 
 .form-group label {
-  color: #333;
+  color: var(--text-primary);
   font-weight: 600;
   font-size: 0.95rem;
 }
 
 .required {
-  color: #eb3349;
+  color: var(--color-error);
 }
 
 .form-group input,
 .form-group textarea {
   padding: 0.875rem 1rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--input-border);
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
   font-family: inherit;
+  background: var(--input-bg);
+  color: var(--text-primary);
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #2a5298;
-  box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+  border-color: var(--input-focus-border);
+  box-shadow: var(--input-focus-shadow);
 }
 
 .form-group input.error,
 .form-group textarea.error {
-  border-color: #eb3349;
+  border-color: var(--color-error);
 }
 
 .form-group textarea {
@@ -281,7 +285,7 @@
 }
 
 .error-message {
-  color: #eb3349;
+  color: var(--color-error);
   font-size: 0.85rem;
   margin-top: 0.25rem;
 }
@@ -314,15 +318,15 @@
 
 /* ==================== FAQ Section ==================== */
 .faq-section {
-  background: white;
+  background: var(--card-bg);
   padding: 3rem 2rem;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
   margin-bottom: 3rem;
 }
 
 .faq-section h2 {
-  color: #1e3c72;
+  color: var(--color-primary);
   font-size: 2rem;
   text-align: center;
   margin-bottom: 3rem;
@@ -335,7 +339,7 @@
 }
 
 .faq-item {
-  background: #f8f8f8;
+  background: var(--bg-secondary);
   padding: 1.5rem;
   border-radius: 12px;
   transition: all 0.3s ease;
@@ -343,17 +347,17 @@
 
 .faq-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
 }
 
 .faq-item h3 {
-  color: #1e3c72;
+  color: var(--color-primary);
   font-size: 1.1rem;
   margin-bottom: 1rem;
 }
 
 .faq-item p {
-  color: #666;
+  color: var(--text-secondary);
   line-height: 1.6;
   font-size: 0.95rem;
 }
@@ -379,6 +383,7 @@
 .support-content h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
+  color: white;
 }
 
 .support-content p {
@@ -388,6 +393,7 @@
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  color: white;
 }
 
 .support-buttons {
