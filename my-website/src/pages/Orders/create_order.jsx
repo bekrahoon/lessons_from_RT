@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useBasket } from './BasketContext';
-import './Basket.css';
+import { useBasket } from '../../contexts/BasketContext';
+import '../../styles/Basket.css';
 
 function CreateOrder() {
   const navigate = useNavigate();

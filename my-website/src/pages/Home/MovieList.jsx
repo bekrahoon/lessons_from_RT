@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useBasket } from './BasketContext';
+import { useBasket } from '../../contexts/BasketContext';
 
 // Статические данные (можно заменить на API)
 const movies = [

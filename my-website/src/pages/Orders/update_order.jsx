@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useBasket } from './BasketContext';
-import './Basket.css';
+import { useBasket } from '../../contexts/BasketContext';
+import '../../styles/Basket.css';
 
 function UpdateOrder() {
   const { id } = useParams();

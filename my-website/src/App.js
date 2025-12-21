@@ -1,21 +1,21 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { BasketProvider, useBasket } from './BasketContext';
-import { AuthProvider, useAuth } from './AuthContext';
-import ProtectedRoute from './ProtectedRoute';
-import MovieList from './MovieList';
-import MovieDetail from './MovieDetail.js';
-import BasketList from './basket_list';
-import BasketDetail from './basket_detail';
-import CreateOrder from './create_order';
-import UpdateOrder from './update_order';
-import OrdersList from './OrdersList';
-import Register from './Register';
-import Login from './Login';
-import Profile from './Profile';
-import About from './About';
-import Contact from './Contact';
-import './App.css';
+import { BasketProvider, useBasket } from './contexts/BasketContext.js';
+import { AuthProvider, useAuth } from './contexts/AuthContext.js';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+import MovieList from './pages/Home/MovieList.jsx';
+import MovieDetail from './pages/Home/MovieDetail.jsx';
+import BasketList from './pages/Basket/basket_list.jsx';
+import BasketDetail from './pages/Basket/basket_detail.jsx';
+import CreateOrder from './pages/Orders/create_order.jsx';
+import UpdateOrder from './pages/Orders/update_order.jsx';
+import OrdersList from './pages/Orders/OrdersList.jsx';
+import Register from './pages/Auth/Register.jsx';
+import Login from './pages/Auth/Login.jsx';
+import Profile from './pages/Auth/Profile.jsx';
+import About from './pages/About/About.jsx';
+import Contact from './pages/Contact/Contact.jsx';
+import './styles/App.css';
 
 function BasketIcon() {
   const { getTotalItems } = useBasket();

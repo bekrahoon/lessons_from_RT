@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useBasket } from './BasketContext';
-import './Basket.css';
+import { useBasket } from '../../contexts/BasketContext';
+import '../../styles/Basket.css';
+
 
 function OrdersList() {
   const { orders } = useBasket();

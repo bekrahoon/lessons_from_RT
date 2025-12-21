@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useBasket } from './BasketContext';
+import { useBasket } from '../../contexts/BasketContext';
 import { movies } from './MovieList';
 
 function MovieDetail() {

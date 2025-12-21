@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useBasket } from './BasketContext';
-import './Basket.css';
+import { useBasket } from '../../contexts/BasketContext';
+import '../../styles/Basket.css';
 
 function BasketDetail() {
   const { id } = useParams();
