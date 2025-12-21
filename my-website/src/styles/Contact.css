@@ -1,4 +1,4 @@
-/* ==================== Contact Page Styles (С ПОДДЕРЖКОЙ ТЕМ) ==================== */
+/* ==================== CONTACT - С АДАПТИВНЫМИ КАРТОЧКАМИ ==================== */
 
 .contact-page {
   min-height: 100vh;
@@ -12,7 +12,6 @@
   padding: 0 2rem;
 }
 
-/* ==================== Hero Section ==================== */
 .contact-hero {
   text-align: center;
   padding: 3rem 0;
@@ -33,7 +32,6 @@
   margin: 0 auto;
 }
 
-/* ==================== Success Notification ==================== */
 .success-notification {
   background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
   color: white;
@@ -70,7 +68,6 @@
   font-weight: bold;
 }
 
-/* ==================== Contact Content ==================== */
 .contact-content {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
@@ -78,7 +75,6 @@
   margin-bottom: 4rem;
 }
 
-/* ==================== Contact Info Section ==================== */
 .contact-info-section {
   background: var(--card-bg);
   padding: 2rem;
@@ -99,50 +95,57 @@
   margin-bottom: 2rem;
 }
 
+/* ✅ ИСПРАВЛЕНО: Карточки адаптируются к теме */
 .contact-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* Градиент ВСЕГДА фиолетовый (не зависит от темы) */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
   padding: 1.5rem;
   border-radius: 12px;
   text-align: center;
-  color: white;
-  transition: transform 0.3s ease;
+  /* Текст ВСЕГДА белый на фиолетовом градиенте */
+  color: white !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .contact-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.5);
 }
 
 .contact-icon {
   font-size: 2.5rem;
   margin-bottom: 1rem;
+  color: white;
 }
 
 .contact-card h3 {
   font-size: 1.2rem;
   margin-bottom: 0.75rem;
-  color: white;
+  color: white !important;
+  font-weight: 600;
 }
 
 .contact-card a {
   display: block;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95) !important;
   text-decoration: none;
   margin: 0.5rem 0;
   transition: color 0.3s ease;
+  font-weight: 500;
 }
 
 .contact-card a:hover {
-  color: white;
+  color: white !important;
   text-decoration: underline;
 }
 
 .contact-card p {
   margin: 0.5rem 0;
   font-size: 0.95rem;
-  color: white;
+  color: white !important;
+  line-height: 1.5;
 }
 
-/* ==================== Social Media ==================== */
 .social-media-section {
   margin-top: 2rem;
   padding-top: 2rem;
@@ -171,6 +174,7 @@
   text-decoration: none;
   color: var(--text-primary);
   transition: all 0.3s ease;
+  font-weight: 500;
 }
 
 .social-link:hover {
@@ -182,6 +186,7 @@
   font-size: 1.5rem;
 }
 
+/* Социальные сети с фирменными цветами */
 .social-link.facebook:hover {
   background: #1877f2;
   color: white;
@@ -212,7 +217,6 @@
   color: white;
 }
 
-/* ==================== Contact Form Section ==================== */
 .contact-form-section {
   background: var(--card-bg);
   padding: 2rem;
@@ -232,7 +236,6 @@
   line-height: 1.6;
 }
 
-/* ==================== Form Styles ==================== */
 .contact-form {
   display: flex;
   flex-direction: column;
@@ -316,7 +319,6 @@
   font-size: 1.2rem;
 }
 
-/* ==================== FAQ Section ==================== */
 .faq-section {
   background: var(--card-bg);
   padding: 3rem 2rem;
@@ -362,7 +364,6 @@
   font-size: 0.95rem;
 }
 
-/* ==================== Support Section ==================== */
 .support-section {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 3rem 2rem;
@@ -425,7 +426,6 @@
   font-size: 1.2rem;
 }
 
-/* ==================== Responsive Design ==================== */
 @media (max-width: 1024px) {
   .contact-content {
     grid-template-columns: 1fr;
