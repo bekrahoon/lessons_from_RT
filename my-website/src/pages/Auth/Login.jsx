@@ -158,8 +158,6 @@ function Login() {
               <span>или</span>
             </div>
 
-
-
             {/* Ссылка на регистрацию */}
             <div className="auth-footer">
               <p>
