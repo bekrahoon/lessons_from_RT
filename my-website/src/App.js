@@ -1,20 +1,30 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { BasketProvider, useBasket } from './contexts/BasketContext.js';
-import { AuthProvider, useAuth } from './contexts/AuthContext.js';
-import ProtectedRoute from './components/ProtectedRoute.jsx';
-import MovieList from './pages/Home/MovieList.jsx';
-import MovieDetail from './pages/Home/MovieDetail.jsx';
-import BasketList from './pages/Basket/basket_list.jsx';
-import BasketDetail from './pages/Basket/basket_detail.jsx';
-import CreateOrder from './pages/Orders/create_order.jsx';
-import UpdateOrder from './pages/Orders/update_order.jsx';
-import OrdersList from './pages/Orders/OrdersList.jsx';
-import Register from './pages/Auth/Register.jsx';
-import Login from './pages/Auth/Login.jsx';
-import Profile from './pages/Auth/Profile.jsx';
-import About from './pages/About/About.jsx';
-import Contact from './pages/Contact/Contact.jsx';
+
+// Contexts
+import { BasketProvider, useBasket } from './contexts/BasketContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+
+// Components
+import ProtectedRoute from './components/ProtectedRoute';
+import ThemeToggle from './components/ThemeToggle/ThemeToggle';
+
+// Pages
+import MovieList from './pages/Home/MovieList';
+import MovieDetail from './pages/Home/MovieDetail';
+import About from './pages/About/About';
+import Contact from './pages/Contact/Contact';
+import Register from './pages/Auth/Register';
+import Login from './pages/Auth/Login';
+import Profile from './pages/Auth/Profile';
+import BasketList from './pages/Basket/basket_list';
+import BasketDetail from './pages/Basket/basket_detail';
+import OrdersList from './pages/Orders/OrdersList';
+import CreateOrder from './pages/Orders/create_order';
+import UpdateOrder from './pages/Orders/update_order';
+
+// Styles
 import './styles/App.css';
 
 function BasketIcon() {
@@ -56,11 +66,8 @@ function UserMenu() {
         <span className="user-name">{currentUser.firstName}</span>
       </Link>
       <button 
+        onClick={logout} 
         className="logout-btn-small"
-        onClick={() => {
-          logout();
-          window.location.href = '/';
-        }}
         title="Выйти"
       >
         🚪
@@ -86,6 +93,7 @@ function AppContent() {
             <Link to="/contacts">Контакты</Link>
           </nav>
           <div className="header-actions">
+            <ThemeToggle />
             <BasketIcon />
             <UserMenu />
           </div>
@@ -94,6 +102,7 @@ function AppContent() {
 
       <main className="main-content">
         <Routes>
+          {/* Публичные маршруты */}
           <Route path="/" element={<MovieList />} />
           <Route path="/movie/:id" element={<MovieDetail />} />
           <Route path="/register" element={<Register />} />
@@ -154,8 +163,9 @@ function AppContent() {
           <div className="footer-section">
             <h4>Контакты</h4>
             <ul>
-              <li>Email: info@kinоmir.com</li>
-              <li>Тел: +996 999 089 884</li>
+              <li>Email: info@kinomir.com</li>
+              <li>Телефон: +996 555 123 456</li>
+              <li>Адрес: г. Бишкек, ул. Чуй 123</li>
             </ul>
           </div>
           <div className="footer-section">
@@ -180,11 +190,13 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <AuthProvider>
-        <BasketProvider>
-          <AppContent />
-        </BasketProvider>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <BasketProvider>
+            <AppContent />
+          </BasketProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </Router>
   );
 }

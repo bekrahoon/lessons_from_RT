@@ -1,0 +1,246 @@
+/* ==================== THEME SYSTEM - CSS VARIABLES ==================== */
+
+/* Светлая тема (по умолчанию) */
+:root {
+  /* Основные цвета */
+  --color-primary: #1e3c72;
+  --color-secondary: #2a5298;
+  --color-accent: #667eea;
+  
+  /* Фоны */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f7fa;
+  --bg-tertiary: #e8ecf1;
+  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  
+  /* Текст */
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --text-on-primary: #ffffff;
+  
+  /* Границы */
+  --border-color: #e0e0e0;
+  --border-light: #f0f0f0;
+  
+  /* Карточки */
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --card-hover-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  
+  /* Header/Footer */
+  --header-bg: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  --footer-bg: #1e3c72;
+  
+  /* Кнопки */
+  --btn-primary-bg: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+  --btn-secondary-bg: #f0f0f0;
+  --btn-hover-transform: translateY(-2px);
+  
+  /* Формы */
+  --input-bg: #ffffff;
+  --input-border: #e0e0e0;
+  --input-focus-border: #2a5298;
+  --input-focus-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+  
+  /* Success/Error */
+  --color-success: #11998e;
+  --color-error: #eb3349;
+  --color-warning: #f39c12;
+  --color-info: #3498db;
+  
+  /* Overlay */
+  --overlay-bg: rgba(0, 0, 0, 0.5);
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* Темная тема */
+[data-theme="dark"] {
+  /* Основные цвета */
+  --color-primary: #4a90e2;
+  --color-secondary: #5da8ff;
+  --color-accent: #8b9dc3;
+  
+  /* Фоны */
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --bg-tertiary: #0f1419;
+  --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  
+  /* Текст */
+  --text-primary: #e8e8e8;
+  --text-secondary: #b8b8b8;
+  --text-tertiary: #888888;
+  --text-on-primary: #ffffff;
+  
+  /* Границы */
+  --border-color: #2d3748;
+  --border-light: #374151;
+  
+  /* Карточки */
+  --card-bg: #16213e;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --card-hover-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  
+  /* Header/Footer */
+  --header-bg: linear-gradient(135deg, #0f1419 0%, #16213e 100%);
+  --footer-bg: #0f1419;
+  
+  /* Кнопки */
+  --btn-primary-bg: linear-gradient(135deg, #4a90e2 0%, #5da8ff 100%);
+  --btn-secondary-bg: #2d3748;
+  --btn-hover-transform: translateY(-2px);
+  
+  /* Формы */
+  --input-bg: #0f1419;
+  --input-border: #2d3748;
+  --input-focus-border: #4a90e2;
+  --input-focus-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+  
+  /* Success/Error (немного ярче для темной темы) */
+  --color-success: #38ef7d;
+  --color-error: #f45c43;
+  --color-warning: #f39c12;
+  --color-info: #5da8ff;
+  
+  /* Overlay */
+  --overlay-bg: rgba(0, 0, 0, 0.7);
+}
+
+/* ==================== ПРИМЕНЕНИЕ ПЕРЕМЕННЫХ ==================== */
+
+/* Глобальные стили */
+body {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+/* App container */
+.App {
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  transition: background var(--transition-normal);
+}
+
+/* Header */
+.header {
+  background: var(--header-bg);
+  transition: background var(--transition-normal);
+}
+
+.header .logo h1 {
+  color: var(--text-on-primary);
+}
+
+.nav a {
+  color: var(--text-on-primary);
+}
+
+/* Cards */
+.movie-card,
+.about-card,
+.feature-item,
+.contact-card {
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  transition: all var(--transition-normal);
+}
+
+.movie-card:hover,
+.about-card:hover,
+.feature-item:hover {
+  box-shadow: var(--card-hover-shadow);
+}
+
+/* Text */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+}
+
+p, span, li {
+  color: var(--text-secondary);
+}
+
+.movie-title,
+.about-card h2 {
+  color: var(--text-primary);
+}
+
+/* Inputs */
+input,
+textarea,
+select {
+  background: var(--input-bg);
+  color: var(--text-primary);
+  border-color: var(--input-border);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--input-focus-border);
+  box-shadow: var(--input-focus-shadow);
+}
+
+/* Buttons */
+.btn,
+button {
+  transition: all var(--transition-normal);
+}
+
+.btn-primary,
+.add-to-basket-btn {
+  background: var(--btn-primary-bg);
+}
+
+/* Footer */
+.footer {
+  background: var(--footer-bg);
+  color: var(--text-on-primary);
+}
+
+.footer a {
+  color: var(--text-on-primary);
+}
+
+/* Loading/Error states */
+.loading-container,
+.error-container {
+  background: var(--card-bg);
+  color: var(--text-primary);
+}
+
+/* Модальные окна */
+.modal-overlay {
+  background: var(--overlay-bg);
+}
+
+.modal-content {
+  background: var(--card-bg);
+  color: var(--text-primary);
+}
+
+/* Borders */
+.movie-card,
+.about-card,
+input,
+textarea {
+  border: 1px solid var(--border-color);
+}
+
+/* Smooth transitions for theme change */
+* {
+  transition: background-color var(--transition-fast), 
+              color var(--transition-fast), 
+              border-color var(--transition-fast);
+}
+
+/* Prevent transition on page load */
+.no-transition * {
+  transition: none !important;
+}
