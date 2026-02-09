@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './styles/Header.css';
 
+
 const Header = () => {
   const count = useSelector(state => state.counter.value); // можно потом заменить на реальный баланс
 

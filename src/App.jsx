@@ -1,5 +1,10 @@
-import Header from './Header';
+// src/App.jsx (обновлённый с несколькими контентами и LIST/DETAIL)
 import { Routes, Route } from 'react-router-dom';
+import Header from './Header';
+import PostList from './PostList';
+import UserList from './UserList';
+import TodoList from './TodoList';
+import PostDetail from './PostDetail';
 
 function App() {
   return (
@@ -9,34 +14,39 @@ function App() {
       <div style={{ paddingTop: '80px' }}>
         <Routes>
           <Route path="/" element={
-            <div style={{ padding: '100px 40px', textAlign: 'center' }}>
-              <h1 style={{ fontSize: '72px', marginBottom: '20px' }}>
-                Добро пожаловать в <span style={{ background: 'linear-gradient(90deg, #00ff9d, #00b8ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>SpinForge</span>
-              </h1>
-              <p style={{ fontSize: '24px', color: '#888', maxWidth: '600px', margin: '0 auto 40px' }}>
-                Мультиплеерные игры. Быстрые дуэли. Реальные эмоции.
-              </p>
-              <button style={{
-                background: 'linear-gradient(90deg, #00ff9d, #00b8ff)',
-                color: '#000',
-                padding: '18px 48px',
-                fontSize: '18px',
-                fontWeight: '700',
-                borderRadius: '50px',
-                border: 'none',
-                cursor: 'pointer'
-              }}>
-                Играть сейчас
-              </button>
+            <div className="container">
+              {/* Контент 1: LIST постов с DETAIL */}
+              <section className="section">
+                <h2 className="section-title">Последние посты (LIST/DETAIL)</h2>
+                <PostList />
+              </section>
+
+              {/* Контент 2: Список пользователей */}
+              <section className="section">
+                <h2 className="section-title">Топ пользователей</h2>
+                <UserList />
+              </section>
+
+              {/* Контент 3: Список задач */}
+              <section className="section">
+                <h2 className="section-title">Активные задачи</h2>
+                <TodoList />
+              </section>
             </div>
           } />
 
-          {/* Заглушки для будущих страниц */}
-          <Route path="/games" element={<div style={{ padding: 100, textAlign: 'center' }}><h2>Игры — скоро...</h2></div>} />
-          <Route path="/roulette" element={<div style={{ padding: 100, textAlign: 'center' }}><h2>Мультиплеер рулетка — уже в разработке</h2></div>} />
-          <Route path="/leaderboard" element={<div style={{ padding: 100, textAlign: 'center' }}><h2>Лидерборд</h2></div>} />
-          <Route path="/community" element={<div style={{ padding: 100, textAlign: 'center' }}><h2>Сообщество</h2></div>} />
-          <Route path="/profile" element={<div style={{ padding: 100, textAlign: 'center' }}><h2>Профиль пользователя</h2></div>} />
+          <Route path="/post/:id" element={
+            <div className="container" style={{ padding: '100px 40px' }}>
+              <PostDetail />
+            </div>
+          } />
+
+          {/* Заглушки для других страниц */}
+          <Route path="/games" element={<div className="container" style={{ padding: 100, textAlign: 'center' }}><h2>Игры — скоро...</h2></div>} />
+          <Route path="/roulette" element={<div className="container" style={{ padding: 100, textAlign: 'center' }}><h2>Мультиплеер рулетка — уже в разработке</h2></div>} />
+          <Route path="/leaderboard" element={<div className="container" style={{ padding: 100, textAlign: 'center' }}><h2>Лидерборд</h2></div>} />
+          <Route path="/community" element={<div className="container" style={{ padding: 100, textAlign: 'center' }}><h2>Сообщество</h2></div>} />
+          <Route path="/profile" element={<div className="container" style={{ padding: 100, textAlign: 'center' }}><h2>Профиль пользователя</h2></div>} />
         </Routes>
       </div>
     </>
