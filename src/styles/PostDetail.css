@@ -25,3 +25,18 @@
   color: #888;
   text-align: right;
 }
+
+.edit-btn {
+  background: #222;
+  color: white;
+  padding: 8px 24px;
+  border-radius: 50px;
+  display: inline-block;
+  margin-right: 16px;
+  transition: all 0.3s;
+}
+
+.edit-btn:hover {
+  background: #00ff9d;
+  color: #000;
+}
