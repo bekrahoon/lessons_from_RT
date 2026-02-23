@@ -21,7 +21,6 @@ class WeatherApp:
         self.result_text = ft.Text(size=18, weight="bold")
 
         self.build_ui()
-    #Создание интерфейса
     def build_ui(self):
         self.page.add(ft.Text("Введите температуру по областям", size=20))
         for region in self.regions:
@@ -47,10 +46,28 @@ class WeatherApp:
             for field in self.inputs:
                 value = float(field.value)
                 temperatures.append(value)
+            
             average = sum(temperatures) / len(temperatures)
-            self.result_text.value = f'Средняя температура: {average:.2f} C'
+            max_temp = max(temperatures)
+            min_temp = min(temperatures)
+            
+            if average > 20:
+                color = "green"
+            elif 10 <= average <= 20:
+                color = "blue"
+            else:
+                color = "red"
+            
+            self.result_text.value = (
+                f'Средняя температура: {average:.2f}°C\n'
+                f'Самая высокая температура: {max_temp:.2f}°C\n'
+                f'Самая низкая температура: {min_temp:.2f}°C'
+            )
+            self.result_text.color = color
+            
         except ValueError:
-            self.result_text.value = 'Ошибка введите корректные числа'
+            self.result_text.value = 'Ошибка: введите корректные числа'
+            self.result_text.color = "black"
         
         self.page.update()
 
