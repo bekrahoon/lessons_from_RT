@@ -1,0 +1,42 @@
+.post-detail {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  background: #1a1a1a;
+  border-radius: 16px;
+  border: 1px solid #333;
+}
+
+.post-detail h2 {
+  font-size: 32px;
+  margin-bottom: 24px;
+  color: #fff;
+}
+
+.post-detail p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #ddd;
+  margin-bottom: 16px;
+}
+
+.author {
+  font-size: 14px;
+  color: #888;
+  text-align: right;
+}
+
+.edit-btn {
+  background: #222;
+  color: white;
+  padding: 8px 24px;
+  border-radius: 50px;
+  display: inline-block;
+  margin-right: 16px;
+  transition: all 0.3s;
+}
+
+.edit-btn:hover {
+  background: #00ff9d;
+  color: #000;
+}
