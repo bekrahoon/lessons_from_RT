@@ -1,207 +1,189 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { registerUser, clearAuthError } from '../store';
-import '../styles/Auth.css';
+import { registerUser, clearAuthError } from '../store/index.js';
+import './Auth.css';
 
-// Правила валидации полей (клиентская — для UI подсказок)
-const FIELD_RULES = {
+// Клиентские правила для подсказок в реальном времени
+const RULES = {
   username: [
-    { test: v => v.length >= 3, msg: 'Минимум 3 символа' },
-    { test: v => /^[a-zA-Z0-9_]+$/.test(v), msg: 'Только латиница, цифры, _' },
+    { test: v => v.length >= 3,              msg: 'Минимум 3 символа' },
+    { test: v => /^[a-zA-Z0-9_]*$/.test(v), msg: 'Только латиница, цифры, _' },
   ],
   email: [
     { test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), msg: 'Некорректный e-mail' },
   ],
   password: [
-    { test: v => v.length >= 6, msg: 'Минимум 6 символов' },
-    { test: v => /[A-Z]/.test(v), msg: 'Нужна заглавная буква' },
-    { test: v => /[0-9]/.test(v), msg: 'Нужна хотя бы одна цифра' },
+    { test: v => v.length >= 6,    msg: 'Минимум 6 символов' },
+    { test: v => /[A-Z]/.test(v),  msg: 'Нужна заглавная буква' },
+    { test: v => /[0-9]/.test(v),  msg: 'Нужна хотя бы одна цифра' },
   ],
   confirmPassword: [
     { test: (v, all) => v === all.password, msg: 'Пароли не совпадают' },
   ],
 };
 
-const validateField = (name, value, allValues) => {
-  const rules = FIELD_RULES[name] || [];
-  for (const rule of rules) {
-    if (!rule.test(value, allValues)) return rule.msg;
-  }
+const checkField = (name, value, all) => {
+  for (const r of RULES[name] || [])
+    if (!r.test(value, all)) return r.msg;
   return null;
 };
 
 // Индикатор силы пароля
-const PasswordStrength = ({ password }) => {
+function PasswordMeter({ password }) {
   if (!password) return null;
   let score = 0;
-  if (password.length >= 6) score++;
-  if (password.length >= 10) score++;
-  if (/[A-Z]/.test(password)) score++;
-  if (/[0-9]/.test(password)) score++;
+  if (password.length >= 6)         score++;
+  if (password.length >= 10)        score++;
+  if (/[A-Z]/.test(password))       score++;
+  if (/[0-9]/.test(password))       score++;
   if (/[^A-Za-z0-9]/.test(password)) score++;
 
-  const levels = ['', 'Слабый', 'Слабый', 'Средний', 'Сильный', 'Очень сильный'];
-  const colors = ['', '#ff4d4d', '#ff8c00', '#f0c040', '#00ff9d', '#00b8ff'];
-
+  const colors = ['#ff5c6a','#ff5c6a','#ffb547','#ffb547','#2dd4a0','#4f8bff'];
+  const labels = ['','Слабый','Слабый','Средний','Сильный','Отлично'];
   return (
-    <div className="password-strength">
-      <div className="strength-bars">
-        {[1, 2, 3, 4, 5].map(i => (
-          <div key={i} className="strength-bar" style={{ background: i <= score ? colors[score] : '#333' }} />
+    <div className="password-meter">
+      <div className="meter-bars">
+        {[1,2,3,4,5].map(i => (
+          <div key={i} className="meter-bar"
+            style={{ background: i <= score ? colors[score] : 'var(--border2)' }} />
         ))}
       </div>
-      <span style={{ color: colors[score], fontSize: 12 }}>{levels[score]}</span>
+      <span style={{ color: colors[score], fontSize: 11 }}>{labels[score]}</span>
     </div>
   );
-};
+}
 
-const RegisterPage = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { currentUser, error } = useSelector(state => state.auth);
+export default function RegisterPage() {
+  const dispatch  = useDispatch();
+  const navigate  = useNavigate();
+  const { currentUser, error } = useSelector(s => s.auth);
 
-  const [form, setForm] = useState({ username: '', email: '', password: '', confirmPassword: '' });
-  const [fieldErrors, setFieldErrors] = useState({});
-  const [showPass, setShowPass] = useState(false);
+  const [form,   setForm]   = useState({ username: '', email: '', password: '', confirmPassword: '' });
+  const [errs,   setErrs]   = useState({});
   const [touched, setTouched] = useState({});
+  const [showPw,  setShowPw] = useState(false);
 
-  // Если уже залогинен — на главную
-  useEffect(() => {
-    if (currentUser) navigate('/');
-  }, [currentUser, navigate]);
-
-  // Сброс глобальной ошибки при размонтировании
+  useEffect(() => { if (currentUser) navigate('/'); }, [currentUser, navigate]);
   useEffect(() => () => dispatch(clearAuthError()), [dispatch]);
 
-  const handleChange = e => {
+  const onChange = e => {
     const { name, value } = e.target;
-    const newForm = { ...form, [name]: value };
-    setForm(newForm);
-
-    if (touched[name]) {
-      setFieldErrors(prev => ({ ...prev, [name]: validateField(name, value, newForm) }));
-    }
+    const next = { ...form, [name]: value };
+    setForm(next);
     if (error) dispatch(clearAuthError());
+    if (touched[name])
+      setErrs(p => ({ ...p, [name]: checkField(name, value, next) }));
   };
 
-  const handleBlur = e => {
+  const onBlur = e => {
     const { name, value } = e.target;
-    setTouched(prev => ({ ...prev, [name]: true }));
-    setFieldErrors(prev => ({ ...prev, [name]: validateField(name, value, form) }));
+    setTouched(p => ({ ...p, [name]: true }));
+    setErrs(p => ({ ...p, [name]: checkField(name, value, form) }));
   };
 
-  const handleSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault();
-    // Валидируем все поля
-    const errors = {};
-    Object.keys(FIELD_RULES).forEach(field => {
-      const err = validateField(field, form[field] || '', form);
-      if (err) errors[field] = err;
+    const newErrs = {};
+    Object.keys(RULES).forEach(k => {
+      const err = checkField(k, form[k] || '', form);
+      if (err) newErrs[k] = err;
     });
-    setFieldErrors(errors);
+    setErrs(newErrs);
     setTouched({ username: true, email: true, password: true, confirmPassword: true });
-    if (Object.keys(errors).length > 0) return;
-
-    // Диспатчим — middleware в store проверит всё ещё раз
+    if (Object.keys(newErrs).length) return;
+    // → Dispatch: проходит через registrationMiddlewares в store
     dispatch(registerUser(form));
   };
 
   return (
     <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-header">
-          <Link to="/" className="auth-logo">
-            <span className="logo-text">SPIN</span><span className="logo-accent">FORGE</span>
-          </Link>
-          <h1 className="auth-title">Регистрация</h1>
-          <p className="auth-subtitle">Создайте аккаунт и получите 1000 ⚡ на старте</p>
+      <div className="auth-card fade-up">
+        <div className="auth-head">
+          <h1>Создать аккаунт</h1>
+          <p>Заполните форму для регистрации</p>
         </div>
 
-        {/* Визуализация middleware-цепочки */}
-        <div className="mw-pipeline">
-          <span className="mw-label">⚙ Middleware проверки</span>
-          <div className="mw-steps">
-            {['Поля', 'Логин', 'Email', 'Пароль', 'Уникальность'].map((s, i) => (
-              <span key={i} className="mw-step">→ {s}</span>
+        {/* Визуализация middleware-пайплайна */}
+        <div className="mw-box">
+          <span className="mw-label">⚙ Middleware-цепочка регистрации</span>
+          <div className="mw-chain">
+            {['Поля','Логин','Email','Пароль','Совпадение','Уникальность'].map((s,i) => (
+              <span key={i} className="mw-node">{s}</span>
             ))}
           </div>
         </div>
 
-        {error && <div className="auth-error">⚠ {error}</div>}
+        {error && <div className="auth-alert">{error}</div>}
 
-        <form onSubmit={handleSubmit} className="auth-form" noValidate>
-          <div className="auth-field">
-            <label>Логин</label>
-            <input
-              name="username"
-              value={form.username}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="game_master_99"
-              className={fieldErrors.username ? 'input-error' : ''}
-            />
-            {fieldErrors.username && <span className="field-error">{fieldErrors.username}</span>}
-          </div>
+        <form className="auth-form" onSubmit={onSubmit} noValidate>
 
-          <div className="auth-field">
-            <label>E-mail</label>
-            <input
-              name="email"
-              type="email"
-              value={form.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="you@example.com"
-              className={fieldErrors.email ? 'input-error' : ''}
-            />
-            {fieldErrors.email && <span className="field-error">{fieldErrors.email}</span>}
-          </div>
+          <Field label="Логин" name="username" value={form.username}
+            onChange={onChange} onBlur={onBlur}
+            placeholder="game_user_01"
+            error={errs.username} />
 
-          <div className="auth-field">
+          <Field label="E-mail" name="email" type="email" value={form.email}
+            onChange={onChange} onBlur={onBlur}
+            placeholder="you@example.com"
+            error={errs.email} />
+
+          <div className="field">
             <label>Пароль</label>
-            <div className="input-group">
+            <div className="input-wrap">
               <input
                 name="password"
-                type={showPass ? 'text' : 'password'}
+                type={showPw ? 'text' : 'password'}
                 value={form.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                placeholder="Мин. 6 символов, A-Z, 0-9"
-                className={fieldErrors.password ? 'input-error' : ''}
+                onChange={onChange}
+                onBlur={onBlur}
+                placeholder="Мин. 6 симв., A-Z, 0-9"
+                className={errs.password ? 'err' : ''}
               />
-              <button type="button" className="eye-btn" onClick={() => setShowPass(p => !p)}>
-                {showPass ? '🙈' : '👁'}
+              <button type="button" className="eye" onClick={() => setShowPw(p => !p)}>
+                {showPw ? '🙈' : '👁'}
               </button>
             </div>
-            <PasswordStrength password={form.password} />
-            {fieldErrors.password && <span className="field-error">{fieldErrors.password}</span>}
+            <PasswordMeter password={form.password} />
+            {errs.password && <span className="ferr">{errs.password}</span>}
           </div>
 
-          <div className="auth-field">
+          <div className="field">
             <label>Подтверждение пароля</label>
-            <input
-              name="confirmPassword"
-              type={showPass ? 'text' : 'password'}
-              value={form.confirmPassword}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Повторите пароль"
-              className={fieldErrors.confirmPassword ? 'input-error' : ''}
-            />
-            {fieldErrors.confirmPassword && <span className="field-error">{fieldErrors.confirmPassword}</span>}
+            <div className="input-wrap">
+              <input
+                name="confirmPassword"
+                type={showPw ? 'text' : 'password'}
+                value={form.confirmPassword}
+                onChange={onChange}
+                onBlur={onBlur}
+                placeholder="Повторите пароль"
+                className={errs.confirmPassword ? 'err' : ''}
+              />
+            </div>
+            {errs.confirmPassword && <span className="ferr">{errs.confirmPassword}</span>}
           </div>
 
-          <button type="submit" className="auth-btn">Создать аккаунт</button>
-
-          <p className="auth-switch">
-            Уже есть аккаунт?{' '}
-            <Link to="/login" className="auth-link">Войти</Link>
-          </p>
+          <button className="auth-btn" type="submit">Зарегистрироваться</button>
         </form>
+
+        <p className="auth-switch">
+          Уже есть аккаунт? <Link to="/login">Войти</Link>
+        </p>
       </div>
     </div>
   );
-};
+}
 
-export default RegisterPage;
+function Field({ label, name, type = 'text', value, onChange, onBlur, placeholder, error }) {
+  return (
+    <div className="field">
+      <label>{label}</label>
+      <input name={name} type={type} value={value}
+        onChange={onChange} onBlur={onBlur}
+        placeholder={placeholder}
+        className={error ? 'err' : ''} />
+      {error && <span className="ferr">{error}</span>}
+    </div>
+  );
+}

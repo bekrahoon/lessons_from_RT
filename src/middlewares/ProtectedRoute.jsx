@@ -1,14 +1,10 @@
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-/**
- * MIDDLEWARE: Защита роутов
- * Если пользователь не авторизован — редирект на /login
- */
+// MIDDLEWARE: пускает только авторизованных
 const ProtectedRoute = ({ children }) => {
-  const { currentUser } = useSelector(state => state.auth);
-  if (!currentUser) return <Navigate to="/login" replace />;
-  return children;
+  const { currentUser } = useSelector(s => s.auth);
+  return currentUser ? children : <Navigate to="/login" replace />;
 };
 
 export default ProtectedRoute;

@@ -1,118 +1,105 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser, clearAuthError } from '../store';
-import '../styles/Auth.css';
+import { loginUser, clearAuthError } from '../store/index.js';
+import './Auth.css';
 
-const LoginPage = () => {
+export default function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { currentUser, error } = useSelector(state => state.auth);
+  const { currentUser, error } = useSelector(s => s.auth);
 
-  const [form, setForm] = useState({ username: '', password: '' });
-  const [fieldErrors, setFieldErrors] = useState({});
-  const [showPass, setShowPass] = useState(false);
-  const [shake, setShake] = useState(false);
+  const [form,   setForm]   = useState({ username: '', password: '' });
+  const [errs,   setErrs]   = useState({});
+  const [showPw, setShowPw] = useState(false);
+  const [shake,  setShake]  = useState(false);
 
-  // Если уже залогинен — на главную
-  useEffect(() => {
-    if (currentUser) navigate('/');
-  }, [currentUser, navigate]);
-
+  useEffect(() => { if (currentUser) navigate('/'); }, [currentUser, navigate]);
   useEffect(() => () => dispatch(clearAuthError()), [dispatch]);
 
-  // Анимация ошибки
+  // Анимация карточки при ошибке
   useEffect(() => {
-    if (error) {
-      setShake(true);
-      setTimeout(() => setShake(false), 500);
-    }
+    if (error) { setShake(true); setTimeout(() => setShake(false), 500); }
   }, [error]);
 
-  const handleChange = e => {
+  const onChange = e => {
     const { name, value } = e.target;
     setForm(p => ({ ...p, [name]: value }));
-    setFieldErrors(p => ({ ...p, [name]: null }));
+    setErrs(p => ({ ...p, [name]: null }));
     if (error) dispatch(clearAuthError());
   };
 
-  const handleSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault();
-    const errors = {};
-    if (!form.username.trim()) errors.username = 'Введите логин';
-    if (!form.password.trim()) errors.password = 'Введите пароль';
-    if (Object.keys(errors).length) { setFieldErrors(errors); return; }
+    const newErrs = {};
+    if (!form.username.trim()) newErrs.username = 'Введите логин';
+    if (!form.password)        newErrs.password = 'Введите пароль';
+    if (Object.keys(newErrs).length) { setErrs(newErrs); return; }
 
-    // Middleware в store: проверка существования + пароля
-    dispatch(loginUser({ username: form.username, password: form.password }));
+    // → Dispatch: проходит через loginMiddlewares в store
+    dispatch(loginUser(form));
   };
 
   return (
     <div className="auth-page">
-      <div className={`auth-card ${shake ? 'shake' : ''}`}>
-        <div className="auth-header">
-          <Link to="/" className="auth-logo">
-            <span className="logo-text">SPIN</span><span className="logo-accent">FORGE</span>
-          </Link>
-          <h1 className="auth-title">Вход</h1>
-          <p className="auth-subtitle">Добро пожаловать обратно</p>
+      <div className={`auth-card fade-up ${shake ? 'shake' : ''}`}>
+        <div className="auth-head">
+          <h1>Добро пожаловать</h1>
+          <p>Войдите в свой аккаунт</p>
         </div>
 
-        {/* Middleware pipeline */}
-        <div className="mw-pipeline">
-          <span className="mw-label">⚙ Middleware проверки</span>
-          <div className="mw-steps">
-            {['Поля', 'Пользователь', 'Пароль'].map((s, i) => (
-              <span key={i} className="mw-step">→ {s}</span>
+        {/* Middleware-пайплайн */}
+        <div className="mw-box">
+          <span className="mw-label">⚙ Middleware-цепочка входа</span>
+          <div className="mw-chain">
+            {['Поля','Пользователь','Пароль'].map((s,i) => (
+              <span key={i} className="mw-node">{s}</span>
             ))}
           </div>
         </div>
 
-        {error && <div className="auth-error">⚠ {error}</div>}
+        {error && <div className="auth-alert">{error}</div>}
 
-        <form onSubmit={handleSubmit} className="auth-form" noValidate>
-          <div className="auth-field">
+        <form className="auth-form" onSubmit={onSubmit} noValidate>
+          <div className="field">
             <label>Логин</label>
             <input
               name="username"
               value={form.username}
-              onChange={handleChange}
+              onChange={onChange}
               placeholder="Ваш логин"
-              className={fieldErrors.username || error ? 'input-error' : ''}
+              className={errs.username || error ? 'err' : ''}
               autoComplete="username"
             />
-            {fieldErrors.username && <span className="field-error">{fieldErrors.username}</span>}
+            {errs.username && <span className="ferr">{errs.username}</span>}
           </div>
 
-          <div className="auth-field">
+          <div className="field">
             <label>Пароль</label>
-            <div className="input-group">
+            <div className="input-wrap">
               <input
                 name="password"
-                type={showPass ? 'text' : 'password'}
+                type={showPw ? 'text' : 'password'}
                 value={form.password}
-                onChange={handleChange}
+                onChange={onChange}
                 placeholder="Ваш пароль"
-                className={fieldErrors.password || error ? 'input-error' : ''}
+                className={errs.password || error ? 'err' : ''}
                 autoComplete="current-password"
               />
-              <button type="button" className="eye-btn" onClick={() => setShowPass(p => !p)}>
-                {showPass ? '🙈' : '👁'}
+              <button type="button" className="eye" onClick={() => setShowPw(p => !p)}>
+                {showPw ? '🙈' : '👁'}
               </button>
             </div>
-            {fieldErrors.password && <span className="field-error">{fieldErrors.password}</span>}
+            {errs.password && <span className="ferr">{errs.password}</span>}
           </div>
 
-          <button type="submit" className="auth-btn">Войти</button>
-
-          <p className="auth-switch">
-            Нет аккаунта?{' '}
-            <Link to="/register" className="auth-link">Зарегистрироваться</Link>
-          </p>
+          <button className="auth-btn" type="submit">Войти</button>
         </form>
+
+        <p className="auth-switch">
+          Нет аккаунта? <Link to="/register">Зарегистрироваться</Link>
+        </p>
       </div>
     </div>
   );
-};
-
-export default LoginPage;
+}

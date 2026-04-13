@@ -1,140 +1,149 @@
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { toggleTodo, deleteTodo } from '../store';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { toggleTodo, deleteTodo, updateTodo } from '../store/index.js';
+import InteractionBar from '../components/InteractionBar.jsx';
+import './TodoDetail.css';
 
-const PRIORITY_COLOR = { high: '#ff4d4d', medium: '#f0c040', low: '#00ff9d' };
-const PRIORITY_LABEL = { high: '🔴 Высокий', medium: '🟡 Средний', low: '🟢 Низкий' };
+const PR_COLOR = { high: 'var(--red)', medium: 'var(--yellow)', low: 'var(--green)' };
+const PR_LABEL = { high: '🔴 Высокий', medium: '🟡 Средний', low: '🟢 Низкий' };
 
-// GET ID — находим todo по id из URL
-const TodoDetail = () => {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+export default function TodoDetail() {
+  const { id }     = useParams();
+  const dispatch   = useDispatch();
+  const navigate   = useNavigate();
 
-  // useSelector — читаем конкретный todo по id
-  const todo = useSelector(state =>
-    state.todos.items.find(t => t.id === Number(id))
-  );
+  // GET ID — находим задачу по id из URL через useSelector
+  const todo = useSelector(s => s.todos.items.find(t => t.id === Number(id)));
+
+  const [editing, setEditing] = useState(false);
+  const [ef, setEf] = useState(null);
 
   if (!todo) return (
-    <div style={{ textAlign: 'center', padding: '100px 20px' }}>
-      <h2 style={{ color: '#ff4d4d', marginBottom: 16 }}>Задача не найдена</h2>
-      <Link to="/" style={{ color: '#00ff9d' }}>← На главную</Link>
+    <div className="detail-notfound">
+      <span>🔍</span>
+      <h2>Задача не найдена</h2>
+      <p>ID #{id} не существует или была удалена</p>
+      <Link to="/" className="back-link">← Вернуться к списку</Link>
     </div>
   );
 
+  const startEdit = () => {
+    setEf({ title: todo.title, description: todo.description, priority: todo.priority });
+    setEditing(true);
+  };
+
+  const saveEdit = () => {
+    if (!ef.title.trim()) return;
+    dispatch(updateTodo({ id: todo.id, ...ef }));
+    setEditing(false);
+  };
+
   const handleDelete = () => {
-    if (!window.confirm('Удалить задачу?')) return;
+    if (!confirm('Удалить эту задачу?')) return;
     dispatch(deleteTodo(todo.id));
     navigate('/');
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: '0 auto', padding: '100px 20px 40px' }}>
+    <div className="detail-page container">
+      <Link to="/" className="back-link">← Все задачи</Link>
 
-      {/* Навигация */}
-      <Link to="/" style={{ color: '#666', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 32 }}>
-        ← Назад к задачам
-      </Link>
+      <div className="detail-card fade-up">
 
-      {/* Карточка */}
-      <div style={{
-        background: '#111', border: '1px solid #222', borderRadius: 20,
-        padding: 36, boxShadow: '0 0 40px rgba(0,255,157,0.05)'
-      }}>
-        {/* Статус */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-          <span style={{
-            padding: '4px 16px', borderRadius: 20, fontSize: 13, fontWeight: 700,
-            background: todo.completed ? 'rgba(0,255,157,0.1)' : 'rgba(240,192,64,0.1)',
-            color: todo.completed ? '#00ff9d' : '#f0c040',
-            border: `1px solid ${todo.completed ? '#00ff9d44' : '#f0c04044'}`,
-          }}>
-            {todo.completed ? '✓ Выполнено' : '⏳ В процессе'}
-          </span>
-
-          <span style={{
-            padding: '4px 16px', borderRadius: 20, fontSize: 13, fontWeight: 700,
-            background: `${PRIORITY_COLOR[todo.priority]}18`,
-            color: PRIORITY_COLOR[todo.priority],
-            border: `1px solid ${PRIORITY_COLOR[todo.priority]}44`,
-          }}>
-            {PRIORITY_LABEL[todo.priority]}
-          </span>
+        {/* Заголовок карточки */}
+        <div className="detail-top">
+          <div className="detail-badges">
+            <span className="badge-status" style={{
+              background: todo.completed ? 'rgba(45,212,160,0.12)' : 'rgba(255,181,71,0.12)',
+              color: todo.completed ? 'var(--green)' : 'var(--yellow)',
+              borderColor: todo.completed ? 'rgba(45,212,160,0.25)' : 'rgba(255,181,71,0.25)',
+            }}>
+              {todo.completed ? '✓ Выполнено' : '⏳ В процессе'}
+            </span>
+            <span className="badge-priority"
+              style={{ color: PR_COLOR[todo.priority], background: `${PR_COLOR[todo.priority]}18`, borderColor: `${PR_COLOR[todo.priority]}30` }}>
+              {PR_LABEL[todo.priority]}
+            </span>
+          </div>
+          <span className="detail-id">ID #{todo.id}</span>
         </div>
 
-        {/* ID */}
-        <p style={{ color: '#444', fontSize: 12, marginBottom: 8 }}>ID: #{todo.id}</p>
-
-        {/* Заголовок */}
-        <h1 style={{
-          fontSize: 26, fontWeight: 800, marginBottom: 16,
-          textDecoration: todo.completed ? 'line-through' : 'none',
-          color: todo.completed ? '#555' : '#e0e0e0',
-          lineHeight: 1.3,
-        }}>
-          {todo.title}
-        </h1>
-
-        {/* Описание */}
-        {todo.description ? (
-          <p style={{ color: '#888', fontSize: 15, lineHeight: 1.7, marginBottom: 28 }}>
-            {todo.description}
-          </p>
+        {/* Редактирование или просмотр */}
+        {editing ? (
+          <div className="detail-edit">
+            <input className="tf-input big"
+              value={ef.title}
+              onChange={e => setEf(p => ({...p, title: e.target.value}))} />
+            <textarea className="tf-input tf-area"
+              rows={5}
+              value={ef.description}
+              onChange={e => setEf(p => ({...p, description: e.target.value}))} />
+            <div className="pr-row">
+              {Object.keys(PR_LABEL).map(v => (
+                <button key={v} type="button"
+                  className={`pr-btn ${ef.priority === v ? 'active' : ''}`}
+                  style={{'--c': PR_COLOR[v]}}
+                  onClick={() => setEf(p => ({...p, priority: v}))}>
+                  {PR_LABEL[v]}
+                </button>
+              ))}
+            </div>
+            <div className="tf-actions">
+              <button className="btn-primary" onClick={saveEdit}>Сохранить</button>
+              <button className="btn-ghost" onClick={() => setEditing(false)}>Отмена</button>
+            </div>
+          </div>
         ) : (
-          <p style={{ color: '#444', fontSize: 14, fontStyle: 'italic', marginBottom: 28 }}>
-            Описание не добавлено
-          </p>
+          <>
+            <h1 className={`detail-title ${todo.completed ? 'done' : ''}`}>{todo.title}</h1>
+
+            <div className="detail-desc">
+              {todo.description
+                ? <p>{todo.description}</p>
+                : <p className="no-desc">Описание не добавлено</p>}
+            </div>
+
+            <div className="detail-meta">
+              <MetaRow icon="📅" label="Создано"
+                value={new Date(todo.createdAt).toLocaleString('ru-RU')} />
+              {todo.updatedAt && (
+                <MetaRow icon="✏️" label="Изменено"
+                  value={new Date(todo.updatedAt).toLocaleString('ru-RU')} />
+              )}
+              <MetaRow icon="🏷" label="Приоритет" value={PR_LABEL[todo.priority]} />
+              <MetaRow icon="📌" label="Статус"
+                value={todo.completed ? 'Выполнено' : 'В процессе'} />
+            </div>
+
+            {/* Лайки, Избранное, Оценки — полный режим */}
+            <InteractionBar todoId={todo.id} />
+          </>
         )}
 
-        {/* Дата */}
-        <div style={{ color: '#555', fontSize: 13, marginBottom: 32, paddingTop: 20, borderTop: '1px solid #222' }}>
-          Создано: {new Date(todo.createdAt).toLocaleString('ru-RU')}
-        </div>
-
-        {/* Действия */}
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-          <button
-            onClick={() => dispatch(toggleTodo(todo.id))}
-            style={{
-              flex: 1, minWidth: 140, padding: '12px 0', borderRadius: 50,
-              background: todo.completed ? 'rgba(240,192,64,0.15)' : 'linear-gradient(90deg,#00ff9d,#00b8ff)',
-              color: todo.completed ? '#f0c040' : '#000',
-              border: todo.completed ? '1px solid #f0c04044' : 'none',
-              fontWeight: 700, cursor: 'pointer', fontSize: 14,
-            }}
-          >
-            {todo.completed ? '↩ Вернуть в работу' : '✓ Отметить выполненной'}
-          </button>
-
-          <Link
-            to={`/?edit=${todo.id}`}
-            onClick={() => navigate('/')}
-            style={{
-              flex: 1, minWidth: 120, padding: '12px 0', borderRadius: 50,
-              background: 'transparent', color: '#aaa',
-              border: '1px solid #333', fontWeight: 600, fontSize: 14,
-              textAlign: 'center', cursor: 'pointer',
-            }}
-          >
-            ✏️ Редактировать
-          </Link>
-
-          <button
-            onClick={handleDelete}
-            style={{
-              padding: '12px 24px', borderRadius: 50,
-              background: 'rgba(255,77,77,0.1)', color: '#ff6b6b',
-              border: '1px solid rgba(255,77,77,0.3)',
-              fontWeight: 600, cursor: 'pointer', fontSize: 14,
-            }}
-          >
-            🗑 Удалить
-          </button>
-        </div>
+        {/* Кнопки действий */}
+        {!editing && (
+          <div className="detail-actions">
+            <button
+              className={`btn-toggle ${todo.completed ? 'undo' : ''}`}
+              onClick={() => dispatch(toggleTodo(todo.id))}>
+              {todo.completed ? '↩ Вернуть в работу' : '✓ Отметить выполненной'}
+            </button>
+            <button className="btn-ghost" onClick={startEdit}>✏️ Редактировать</button>
+            <button className="btn-danger" onClick={handleDelete}>🗑 Удалить</button>
+          </div>
+        )}
       </div>
     </div>
   );
-};
+}
 
-export default TodoDetail;
+function MetaRow({ icon, label, value }) {
+  return (
+    <div className="meta-row">
+      <span className="meta-icon">{icon}</span>
+      <span className="meta-label">{label}</span>
+      <span className="meta-value">{value}</span>
+    </div>
+  );
+}

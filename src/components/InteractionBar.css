@@ -1,0 +1,166 @@
+/* ─── Панель взаимодействий ──────────────────────────────── */
+.interaction-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--border);
+  margin-top: 14px;
+}
+
+/* Компактный режим (в карточке) */
+.interaction-bar.compact {
+  padding: 10px 0 0;
+  margin-top: 10px;
+  gap: 4px;
+}
+
+/* ─── Базовая кнопка ─────────────────────────────────────── */
+.ib-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 50px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text3);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.ib-btn:hover {
+  background: var(--bg3);
+  border-color: var(--border2);
+  color: var(--text2);
+}
+
+/* Compact кнопки */
+.interaction-bar.compact .ib-btn {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+/* ─── ЛАЙК ──────────────────────────────────────────────── */
+.like-btn.active {
+  border-color: rgba(255, 92, 106, 0.35);
+  background: rgba(255, 92, 106, 0.08);
+  color: var(--red);
+}
+.like-btn.active:hover {
+  background: rgba(255, 92, 106, 0.14);
+}
+.ib-icon { font-size: 15px; line-height: 1; }
+.ib-label { line-height: 1; }
+.ib-count {
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(255,92,106,0.18);
+  color: var(--red);
+  border-radius: 10px;
+  padding: 1px 6px;
+  margin-left: 2px;
+}
+
+/* ─── ИЗБРАННОЕ ─────────────────────────────────────────── */
+.fav-btn.active {
+  border-color: rgba(255, 181, 71, 0.35);
+  background: rgba(255, 181, 71, 0.08);
+  color: var(--yellow);
+}
+.fav-btn.active:hover {
+  background: rgba(255, 181, 71, 0.14);
+}
+
+/* ─── РЕЙТИНГ (полный режим) ─────────────────────────────── */
+.ib-rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 4px;
+  flex-wrap: wrap;
+}
+.ib-rating-label {
+  font-size: 12px;
+  color: var(--text3);
+  white-space: nowrap;
+}
+
+/* ─── Блок звёзд ─────────────────────────────────────────── */
+.star-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.star-block.compact {
+  gap: 4px;
+}
+
+.stars-row {
+  display: flex;
+  gap: 2px;
+}
+
+.star-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  color: var(--border2);
+  cursor: pointer;
+  transition: color 0.15s, transform 0.1s;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.star-btn:hover,
+.stars-row:hover .star-btn {
+  color: var(--yellow);
+  transform: scale(1.15);
+}
+/* Подсвечиваем все звёзды до наведённой */
+.stars-row .star-btn:hover ~ .star-btn {
+  color: var(--border2);
+  transform: scale(1);
+}
+.star-btn.filled { color: var(--yellow); }
+
+/* Compact звёзды */
+.star-block.compact .star-btn {
+  width: 20px;
+  height: 20px;
+  font-size: 15px;
+}
+
+/* ─── Средняя оценка ─────────────────────────────────────── */
+.avg-rating {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.avg-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--yellow);
+  font-family: 'Syne', sans-serif;
+  line-height: 1;
+}
+.avg-count {
+  font-size: 11px;
+  color: var(--text3);
+  white-space: nowrap;
+}
+
+/* compact */
+.ib-rating-compact {
+  margin-left: 2px;
+}
+.ib-rating-compact .avg-value { font-size: 13px; }
+.ib-rating-compact .avg-count { display: none; }

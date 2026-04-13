@@ -1,14 +1,10 @@
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-/**
- * MIDDLEWARE: Страницы только для гостей
- * Если пользователь авторизован — редирект на главную
- */
+// MIDDLEWARE: пускает только гостей (не авторизованных)
 const GuestRoute = ({ children }) => {
-  const { currentUser } = useSelector(state => state.auth);
-  if (currentUser) return <Navigate to="/" replace />;
-  return children;
+  const { currentUser } = useSelector(s => s.auth);
+  return currentUser ? <Navigate to="/" replace /> : children;
 };
 
 export default GuestRoute;

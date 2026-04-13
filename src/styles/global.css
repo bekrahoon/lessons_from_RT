@@ -1,0 +1,56 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0c0e13;
+  --bg2:       #12151d;
+  --bg3:       #1a1f2e;
+  --border:    #252b3b;
+  --border2:   #2f3850;
+  --text:      #e8ecf4;
+  --text2:     #8a93aa;
+  --text3:     #4a5268;
+  --accent:    #4f8bff;
+  --accent2:   #7b5cf0;
+  --green:     #2dd4a0;
+  --red:       #ff5c6a;
+  --yellow:    #ffb547;
+  --radius:    14px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; }
+
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; }
+input, textarea { font-family: inherit; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* Утилиты */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in анимация */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.4s ease both; }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
